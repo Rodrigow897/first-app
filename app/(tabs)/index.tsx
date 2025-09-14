@@ -12,8 +12,15 @@ export default function HomeScreen() {
    <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
       <Text>Home Page</Text>
-      <TextInput style={styles.input}> </TextInput>
-      <TouchableOpacity style={styles.button}><Text style={{color: 'white'}}>Adicionar</Text></TouchableOpacity>
+      <TextInput value={value} onChangeText={setValue} style={styles.input} />
+      <TouchableOpacity onPress={()=>{
+        setList([...list, {id: String(list.length + 1), label: value}]);
+        setValue('');
+      }} style={styles.button}><Text style={{color: 'white'}}>Adicionar</Text></TouchableOpacity>
+
+      {list.map((item) => (
+        <Text key={item.id}>{item.label}</Text>
+      ))}
     </SafeAreaView>
    </SafeAreaProvider>
   );
