@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const [value, setValue] = useState('');
   const [list, setList] = useState([
-    {id: '', label: '',},
+    {id: '', label: '', complete: false,},
   ]);
 
   return (
@@ -18,13 +18,17 @@ export default function HomeScreen() {
       <Text>Digite algo para adicionar</Text>
       <TextInput value={value} onChangeText={setValue} style={styles.input} />
       <TouchableOpacity onPress={()=>{
-        setList([...list, {id: String(list.length + 1), label: value}]);
+        setList([...list, {id: String(list.length + 1 +'. '), label: value, complete: false}]);
         setValue('');
       }} style={styles.button}><Text style={{color: 'white'}}>Adicionar</Text></TouchableOpacity>
 
-      {list.map((item) => (
-        <Text key={item.id}>{item.id}.{item.label}</Text>
-      ))}
+      <FlatList
+        data={list}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Text>{item.id}{item.label}</Text>
+        )}
+      />
     </SafeAreaView>
    </SafeAreaProvider>
   );
